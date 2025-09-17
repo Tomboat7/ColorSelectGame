@@ -1,0 +1,5 @@
+{
+  "name": "Color Sense Challenge",
+  "description": "A browser game to test your color memory. A color is displayed for a few seconds, then you must try to match it using a color picker or by entering its RGB/HEX values.",
+  "requestFramePermissions": []
+}
