@@ -247,17 +247,16 @@ useEffect(() => {
 ```typescript
 const ColorDisplay: React.FC<{ title: string; color: string }> = ({ title, color }) => {
   const rgb = hexToRgb(color);  // Can return null
+  // 26行目: color.toUpperCase() の使用例
+  const colorCode = color.toUpperCase();
   return (
     <div className="text-center">
       {/* ... */}
+      {/* 27行目: 条件付きレンダリング */}
       {rgb && <p className="font-mono text-xs text-gray-500">{`R:${rgb.r} G:${rgb.g} B:${rgb.b}`}</p>}
     </div>
   );
 };
-```
-
-27行目で条件付きレンダリングしているため、現在はクラッシュしませんが、
-26行目の`color.toUpperCase()`は実行されます。
 
 ---
 
