@@ -155,7 +155,7 @@ export const rgbToHex = (r: number, g: number, b: number): string => {
   const rr = clamp(r);
   const gg = clamp(g);
   const bb = clamp(b);
-  return "#" + ((1 << 24) + (rr << 16) + (gg << 8) + bb).toString(16).slice(1);
+  return "#" + ((1 << 24) + (rr << 16) + (gg << 8) + bb).toString(16).slice(1).padStart(6, '0');
 };
 ```
 
