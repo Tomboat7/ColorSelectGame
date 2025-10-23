@@ -148,14 +148,13 @@ export const rgbToHex = (r: number, g: number, b: number): string => {
 - `rgbToHex(1.5, 2.7, 3.9)` → 予期しない結果
 
 #### 推奨対策
-```typescript
 export const rgbToHex = (r: number, g: number, b: number): string => {
   // Clamp values between 0 and 255 and ensure integers
-  const clamp = (val: number) => Math.max(0, Math.min(255, Math.floor(val)));
+  const clamp = (val: number) => Math.min(255, Math.max(0, Math.floor(val)));
   const rr = clamp(r);
   const gg = clamp(g);
   const bb = clamp(b);
-  return "#" + ((1 << 24) + (rr << 16) + (gg << 8) + bb).toString(16).slice(1).padStart(6, '0');
+  return "#" + ((1 << 24) + (rr << 16) + (gg << 8) + bb).toString(16).slice(1);
 };
 ```
 
