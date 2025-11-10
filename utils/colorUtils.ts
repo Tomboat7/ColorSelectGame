@@ -21,8 +21,12 @@ export const getRandomColorChoices = (correctColor: ColorName, count: number = 4
     availableColors.splice(randomIndex, 1);
   }
 
-  // Shuffle the choices
-  return choices.sort(() => Math.random() - 0.5);
+  // Shuffle the choices using the Fisher-Yates algorithm for an unbiased shuffle.
+  for (let i = choices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [choices[i], choices[j]] = [choices[j], choices[i]];
+  }
+  return choices;
 };
 
 export const hexToRgb = (hex: string): RGBColor | null => {
