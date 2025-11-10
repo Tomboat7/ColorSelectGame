@@ -14,6 +14,8 @@ export enum Difficulty {
 export enum Mode {
   Picker = 'PICKER',
   Extra = 'EXTRA',
+  ColorNameToColor = 'COLOR_NAME_TO_COLOR',
+  ColorToColorName = 'COLOR_TO_COLOR_NAME',
 }
 
 export type RGBColor = {

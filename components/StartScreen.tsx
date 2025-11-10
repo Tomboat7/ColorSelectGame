@@ -14,7 +14,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
         色彩感覚チャレンジ
       </h1>
       <p className="text-gray-400 mb-8">記憶を頼りに色を再現しよう！</p>
-      
+
       <div className="space-y-6">
         <div>
           <h2 className="text-2xl font-semibold mb-4 text-gray-200">難易度選択</h2>
@@ -32,13 +32,27 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
         </div>
 
         <div>
-           <h2 className="text-2xl font-semibold mb-4 text-gray-200">エクストラモード</h2>
-           <button
-             onClick={() => onStart(Difficulty.Normal, Mode.Extra)}
-             className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-4 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 shadow-lg"
-           >
-             RGB / HEX入力
-           </button>
+          <h2 className="text-2xl font-semibold mb-4 text-gray-200">その他のモード</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button
+              onClick={() => onStart(Difficulty.Normal, Mode.Extra)}
+              className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-4 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 shadow-lg"
+            >
+              RGB / HEX入力
+            </button>
+            <button
+              onClick={() => onStart(Difficulty.Normal, Mode.ColorNameToColor)}
+              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 shadow-lg"
+            >
+              色名→色を選択
+            </button>
+            <button
+              onClick={() => onStart(Difficulty.Normal, Mode.ColorToColorName)}
+              className="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-4 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 shadow-lg md:col-span-2"
+            >
+              色→色名を選択
+            </button>
+          </div>
         </div>
       </div>
     </div>
