@@ -1,8 +1,32 @@
 
-import { RGBColor } from './types';
+import { RGBColor } from '../types';
+import { HTML_COLORS, ColorName } from '../data/colorNames';
 
 export const generateRandomColor = (): string => {
   return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+};
+
+export const getRandomColorName = (): ColorName => {
+  const randomIndex = Math.floor(Math.random() * HTML_COLORS.length);
+  return HTML_COLORS[randomIndex];
+};
+
+export const getRandomColorChoices = (correctColor: ColorName, count: number = 4): ColorName[] => {
+  const choices = [correctColor];
+  const availableColors = HTML_COLORS.filter(c => c.name !== correctColor.name);
+
+  while (choices.length < count && availableColors.length > 0) {
+    const randomIndex = Math.floor(Math.random() * availableColors.length);
+    choices.push(availableColors[randomIndex]);
+    availableColors.splice(randomIndex, 1);
+  }
+
+  // Shuffle the choices using the Fisher-Yates algorithm for an unbiased shuffle.
+  for (let i = choices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [choices[i], choices[j]] = [choices[j], choices[i]];
+  }
+  return choices;
 };
 
 export const hexToRgb = (hex: string): RGBColor | null => {

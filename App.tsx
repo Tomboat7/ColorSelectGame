@@ -4,7 +4,8 @@ import { GameState, Difficulty, Mode } from './types';
 import StartScreen from './components/StartScreen';
 import GameScreen from './components/GameScreen';
 import ResultScreen from './components/ResultScreen';
-import { generateRandomColor, calculateScoreFromHex } from './utils/colorUtils';
+import { generateRandomColor, calculateScoreFromHex, getRandomColorName, getRandomColorChoices } from './utils/colorUtils';
+import { ColorName } from './data/colorNames';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.Start);
@@ -12,10 +13,28 @@ const App: React.FC = () => {
   const [targetColor, setTargetColor] = useState<string>('');
   const [guessedColor, setGuessedColor] = useState<string>('');
   const [score, setScore] = useState<number>(0);
+  const [targetColorName, setTargetColorName] = useState<ColorName | null>(null);
+  const [colorChoices, setColorChoices] = useState<ColorName[]>([]);
+  const [guessedColorName, setGuessedColorName] = useState<string>('');
 
   const handleStartGame = useCallback((difficulty: Difficulty, mode: Mode) => {
     setGameSettings({ difficulty, mode });
-    setTargetColor(generateRandomColor());
+
+    if (mode === Mode.ColorNameToColor) {
+      const randomColorName = getRandomColorName();
+      setTargetColorName(randomColorName);
+      setTargetColor(randomColorName.hex);
+    } else if (mode === Mode.ColorToColorName) {
+      const randomColorName = getRandomColorName();
+      setTargetColorName(randomColorName);
+      setTargetColor(randomColorName.hex);
+      setColorChoices(getRandomColorChoices(randomColorName, 4));
+    } else {
+      setTargetColor(generateRandomColor());
+      setTargetColorName(null);
+      setColorChoices([]);
+    }
+
     setGameState(GameState.Playing);
   }, []);
 
@@ -25,6 +44,13 @@ const App: React.FC = () => {
     setScore(calculatedScore);
     setGameState(GameState.Result);
   }, [targetColor]);
+
+  const handleColorNameGuess = useCallback((guessedName: string) => {
+    setGuessedColorName(guessedName);
+    const isCorrect = guessedName === targetColorName?.name;
+    setScore(isCorrect ? 100 : 0);
+    setGameState(GameState.Result);
+  }, [targetColorName]);
 
   const handlePlayAgain = useCallback(() => {
     setGameState(GameState.Start);
@@ -40,7 +66,10 @@ const App: React.FC = () => {
               difficulty={gameSettings.difficulty}
               mode={gameSettings.mode}
               targetColor={targetColor}
+              targetColorName={targetColorName}
+              colorChoices={colorChoices}
               onGuess={handleGuess}
+              onColorNameGuess={handleColorNameGuess}
             />
           );
         }
@@ -48,8 +77,11 @@ const App: React.FC = () => {
       case GameState.Result:
         return (
           <ResultScreen
+            mode={gameSettings?.mode || Mode.Picker}
             targetColor={targetColor}
             guessedColor={guessedColor}
+            targetColorName={targetColorName}
+            guessedColorName={guessedColorName}
             score={score}
             onPlayAgain={handlePlayAgain}
           />
